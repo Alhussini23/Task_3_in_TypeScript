@@ -1,175 +1,95 @@
-// Edit The Interface To Fix The Problems
-interface Member {
-  id: number | string; //Modified
-  username: string;
-  country?: string; //Modified
-  state: boolean; //Modified
-  getName : ()=> string //Modified
+// Do Not Edit
+type numandstring = number | string;
+
+abstract class Game {
+  constructor(public title: string, public price: number) {}
+  abstract getLocation() : string;
+  abstract getDiscount() : string;
 }
 
-// Do Not Edit The Code Below
-let user: Member = { // Property 'country' is missing in type
-  id: 100,
-  username: "Alhussini",
-  state: true,
-  getName() { // 'getName' does not exist in type 'Member'
-    return this.username;
+// Start Edit And Fix
+class RPG extends Game {
+  constructor(title: string, price: number, public rate: numandstring) {
+    super(title,price);
+    
+  };
+  getLocation() : string{
+    return `Discount`
+  }
+  getDiscount() : string{
+    return `Location`
   }
 }
 
-user.id = 200;
-user.id = "200"; // Type 'string' is not assignable to type 'number'
-user.state = false; // Cannot assign to 'state' because it is a read-only property
-
-// ------------------------------******************---------------------------------------
-// Create Interface Here
-interface Client {
-  id : number;
-  username : string;
-  active : boolean;
-  discount : number;
-  getPrice : (price: number)=> number;
-}
-// Do Not Edit The Code Below
-let client: Client = {
-  id: 100,
-  username: "Alhussini",
-  active: true,
-  discount: 10,
-  getPrice(price: number) {
-    return price - this.discount;
-  }
-}
-
-console.log(`Client Id Is ${client.id}`);
-console.log(`Client Name Is ${client.username}`);
-console.log(`Client Has Dicount ${client.discount}`);
-console.log(`Client Product After Discount Is ${client.getPrice(200)}`);
-
-// -----------------------------*****************-----------------------------------
-// Do Not Edit The Code Below
-interface Man {
-  title: string;
-  weight: number;
-  age: number;
-}
-
-interface Bird {
-  canFly: boolean;
-}
-interface Superman extends Man,Bird{
-  bodyType : string;
-  origin : string
-} 
-let creature: Superman = {
-  title: "Superman",
-  weight: 100,
-  age: 500,
-  canFly: true,
-  bodyType: "Iron",
-  origin: "Krypton"
-}
-
-console.log(creature.title)
-console.log(creature.weight)
-console.log(creature.age)
-console.log(creature.canFly)
-console.log(creature.bodyType)
-console.log(creature.origin)
-
-// -------------------------******************-----------------------------
-// Create Class Here
-class Player{
-  details : ()=> string
-  Name : string;
-  Type : string;
-  Level : number | string;
-  Boolean : boolean | string;
-  constructor(name : string ,type : string ,level : number | string , boolean : boolean | string = ""){
-
-    this.Name = name;
-    this.Type = type;
-    this.Level = level;
-    this.Boolean = boolean;
-    let prefix = this.Boolean === true ? "VIP" : "";
-    this.details =function(){
-
-      return `${prefix} ${this.Name}, Type Is ${this.Type} Level is ${this.Level}`
+class Action extends Game {
+    constructor(title: string, price: number , public rate: numandstring , public company : string) {
+        super(title,price)
     };
-  };
-  
+    getLocation() : string{
+      return `Discount`
+    }
+    getDiscount() : string{
+      return `Location`
+    }
 }
-// Do Not Edit The Code Below
-let player1 = new Player("Osama", "Mage", 90, true);
-let player2 = new Player("Shady", "Archer", "85", false);
-let player3 = new Player("Amr", "Fighter", 50, true);
-let player4 = new Player("Mahmoud", "Assassin", 77);
+// End Edit And Fix
 
-console.log(player1.details()); // VIP Osama, Type Is Mage Level Is 90
-console.log(player2.details()); // Shady, Type Is Archer Level Is 85
-console.log(player3.details()); // VIP Amr, Type Is Fighter Level Is 50
-console.log(player4.details()); // Mahmoud, Type Is Assassin Level Is 77
+// Do Not Edit
+let gameOne = new RPG("Ys", 100, 10);
+let gameTwo = new Action("Uncharted", 90, 15, "Sony");
 
-// ----------------------------********************------------------------------
-class Shorten {
-  // public id: number;
-  // public username: string;
-  // protected title: string;
-  constructor (public id: number, public username: string, protected title: string) {
-    // this.id = id;
-    // this.username = username;
-    // this.title = title;
-  };
+console.log(gameOne.title); // "Ys"
+console.log(gameOne.price); // 100
+console.log(gameOne.rate); // 10
+console.log(gameOne.getDiscount()); // "Discount"
+console.log(gameOne.getLocation()); // "Location"
+
+console.log(gameTwo.title); // "Uncharted"
+console.log(gameTwo.price); // 90
+console.log(gameTwo.rate); // 15
+console.log(gameTwo.company); // "Sony"
+console.log(gameTwo.getDiscount()); // "Discount"
+console.log(gameTwo.getLocation()); // "Location"
+
+// __________________________*****************________________________________
+// Write Function Code Here
+type Type = string | number | boolean;
+function showTypes<T = Type ,R = Type ,B = Type>(strin : T |string = "Nothing", numbe :R | number | string = "Nothing", boolea : B | boolean | string = "Nothing"){
+  return `${strin} - ${numbe} - ${boolea}`
 }
+// Do Not Edit Here
+console.log(showTypes()); // Nothing - Nothing - Nothing
+console.log(showTypes<string>("String")); // String - Nothing - Nothing
+console.log(showTypes<string, number>("String", 100)); // String - 100 - Nothing
+console.log(showTypes<string, number, boolean>("String", 100, true)); // String - 100 - true
 
-let teste = new Shorten(100, "Elzero", "Developer");
+// _________________________________*****************______________________________________
+// Write Class Code Here
+// type Type = string | number | boolean
+class Gam <T = string | number | boolean>{
+  constructor(public title? : T ,public price? : number ){
+    if (typeof(title) != 'string'){
+      console.log(`There's A Game Called ${title}`)
+    }; 
+  };
+  getDiscount(input : T) :void{
+    if (typeof(input) != 'number'){
+      console.log(`The Discount Is ${input}`)
+    }
+    else{
 
-console.log(teste.id);
-console.log(teste.username);
-
-// ------------------------------**************--------------------------
-class Show {
-  public get title_1(): string {
-    return this._title;
+      console.log(input)
+    }
   }
-  public set title_1(value: string) {
-    this._title = value;
-  }
-  constructor (private _title: string) {}
 }
+// Do Not Edit Here
+let game1 = new Gam<string>("Ys", 100);
+let game2 = new Gam<number>(2064, 100); // There's A Game Called "2064"
 
-let tester = new Show("Elzero");
+console.log(game1.title); // "Ys"
+console.log(game2.price); // 100
+game1.getDiscount('50'); // "The Discount Is 50"
 
-console.log(tester.title_1); // Property 'title' does not exist on type 'Show'
-tester.title_1 = "Osama"; // Property 'title' does not exist on type 'Show'
-console.log(tester.title_1); // Property 'title' does not exist on type 'Show'
-
-// --------------------------------********************---------------------------
-interface Play {
-  id: number;
-  title: string;
-  level: number | string;
-  logIn(): void;
-  logOut(msg: string): void;
-}
-
-// Create Your Class Here
-class Playe implements Play {
-  constructor(public id : number ,public title : string ,public level : number ){};
-
-  logIn(): void{
-    console.log(`Logged In`)
-  };
-  logOut(msg: string): void{
-    console.log(`Logged Out ${msg}`)
-  }  
-}  
-
-
-let playe2 = new Playe(100, "Elzero", 95);
-
-console.log(playe2.id); // 100
-console.log(playe2.title); // "Elzero"
-console.log(playe2.level); // 95
-playe2.logIn // Logged In
-playe2.logOut("Good Bye"); // Logged Out, Good Bye
+console.log(game2.title); // 2064
+console.log(game2.price); // 100
+game2.getDiscount(80); // "The Discount Is 80"
